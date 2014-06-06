@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-
 import sys
-import re
 
 class Tape:
 	
@@ -96,41 +93,4 @@ class BrainfuckMachine:
 				continue
 			self.commands[instruction]()
 			self.IP += 1
-			
-class OokMachine(BrainfuckMachine):
-	
-	translation = {
-		('Ook.', 'Ook?'): '>',
-		('Ook?', 'Ook.'): '<',
-		('Ook.', 'Ook.'): '+',
-		('Ook!', 'Ook!'): '-',
-		('Ook!', 'Ook.'): '.',
-		('Ook.', 'Ook!'): ',',
-		('Ook!', 'Ook?'): '[',
-		('Ook?', 'Ook!'): ']'
-	}
-	
-	def __init__(self):
-		super().__init__()
-		self.regex = re.compile(r'Ook[\.\?!]')
-		
-	def translate(self, program):
-		result = self.regex.findall(program)
-		result.reverse()
-		resProgram = ''
-		while result:
-			ook1 = result.pop()
-			ook2 = result.pop()
-			resProgram += self.translation[(ook1, ook2)]
-		return resProgram
-		
-	def setCode(self, program):
-		super().setCode(self.translate(program))
-	
-if __name__ == '__main__':
-	if len(sys.argv) < 2:
-		raise Exception
-	with open(sys.argv[1]) as f:
-		program = f.read()
-		m = OokMachine()
-		m.execute(program)
+
